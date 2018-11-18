@@ -33,7 +33,18 @@ public class Complaint implements Serializable {
 
     private Double user_long;
 
+    private String agency;
+
 //    private String user_location;
+
+
+    public String getAgency() {
+        return agency;
+    }
+
+    public void setAgency(String agency) {
+        this.agency = agency;
+    }
 
     private String file_path;
 

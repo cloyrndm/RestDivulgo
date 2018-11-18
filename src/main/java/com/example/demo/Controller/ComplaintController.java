@@ -52,7 +52,7 @@ public class ComplaintController {
         return null;
     }
 
-    @CrossOrigin(origins = {"http://172.30.14.116:8100","file://"})
+    @CrossOrigin(origins = {"http://192.168.1.6:8100","file://"})
     @PostMapping(value="/upload") // //new annotation since 4.3
     public String singleFileUpload(@RequestParam(name="ionicfile") MultipartFile file,
                                    @RequestParam(name="user_id") Long user_id,
@@ -62,12 +62,15 @@ public class ComplaintController {
                                    Complaint complaint,
                                    RedirectAttributes redirectAttributes) {
 
+
+
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         SimpleDateFormat formatter2 = new SimpleDateFormat("HH:mm:ss");
 //        SimpleDateFormat formatter2 = new SimpleDateFormat("HH:mm:ss");
         Date date = new Date();
         String dateee = formatter.format(date);
         String time = formatter2.format(date);
+
         System.out.println("-----------------FILE UPLOAD-----------------");
 
         complaint.setUserId(user_id);
@@ -76,20 +79,84 @@ public class ComplaintController {
         complaint.setUser_complaint(user_complaint);
         complaint.setUser_lat(lat);
         complaint.setUser_long(lng);
+//        complaint.setAgency("LTO");
         if (file.isEmpty()) {
             redirectAttributes.addFlashAttribute("message", "Please select a file to upload");
             return null;
         }
 
         try {
-
             byte[] bytes = file.getBytes();
-
 //            String filepath = "C:/School/Divulgo_Uploads/"+file.getOriginalFilename();
             String filepath = "images/"+file.getOriginalFilename();
             Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
             Files.write(path, bytes);
             complaint.setFile_path(filepath);
+
+
+            String[] words = user_complaint.replaceAll("[^a-zA-Z ]", "").split("\\s+");
+
+            ArrayList<String> stemList = new ArrayList<>();
+
+            for (String a : words) {
+                PorterStemmer stemmer = new PorterStemmer();
+                stemmer.setCurrent(a);
+                stemmer.stem();
+                String steem = stemmer.getCurrent();
+                stemList.add(steem);
+                System.out.println("stemmer: " + steem);
+            }
+
+            System.out.println("-----STEM WORDS");
+            for (String s : stemList) {
+                System.out.print(s + "->");
+            }
+
+            List<Tfidf> tfidf6 = tfidfRepository.findAll();
+            Double love = 0.0;
+            Double lra = 0.0;
+            Double lto = 0.0;
+            Double sss = 0.0;
+            HashMap<String, Double> result = new HashMap<>();
+            HashMap<String, Double> entry = new HashMap<>();
+            for (int i = 0; i < tfidf6.size(); i++) {
+                Tfidf tfidf = tfidfRepository.findByTfidfId(tfidf6.get(i).getTfidfId());
+
+                if (stemList.contains(tfidf.getWord())) {
+                    if (tfidf.getAgency().equals("LTO")) {
+                        lto = lto + tfidf.getTfidfVal();
+                        System.out.println(tfidf.getWord() + "<------>" + tfidf.getAgency());
+                        System.out.println("LTO value computation" + lto);
+
+                    }
+                    if (tfidf.getAgency().equals("LRA")) {
+                        lra = lra + tfidf.getTfidfVal();
+                        System.out.println(tfidf.getWord() + "<------>" + tfidf.getAgency());
+                        System.out.println("LRA value computation" + lra);
+                    }
+                    if (tfidf.getAgency().equals("PAG-IBIG")) {
+                        love = love + tfidf.getTfidfVal();
+                        System.out.println(tfidf.getWord() + "<------>" + tfidf.getAgency());
+                        System.out.println("PAG-IBIG value computation" + love);
+                    }
+                    if (tfidf.getAgency().equals("SSS")) {
+                        sss = sss + tfidf.getTfidfVal();
+                        System.out.println(tfidf.getWord() + "<------>" + tfidf.getAgency());
+                        System.out.println("SSS value computation" + sss);
+                    }
+
+                }
+                entry.put("LTO", lto);
+                entry.put("LRA", lra);
+                entry.put("PAG-IBIG", love);
+                entry.put("SSS", sss);
+            }
+            result = maxVal(entry);
+
+            System.out.println("-----------RESULT-------------");
+            for (Map.Entry<String, Double> e : result.entrySet()) {
+                complaint.setAgency(e.getKey());
+            }
             complaintRepository.save(complaint);
 //            redirectAttributes.addFlashAttribute("message",
 //                    "You successfully uploaded '" + file.getOriginalFilename() + "'");
@@ -101,6 +168,7 @@ public class ComplaintController {
             System.out.println("User Latitude: "+complaint.getUser_lat());
             System.out.println("User Longitude: "+complaint.getUser_long());
             System.out.println("User Id: "+complaint.getUserId());
+            System.out.println("Agency: "+complaint.getAgency());
             System.out.println("---------------------------------------------");
         } catch (IOException e) {
             e.printStackTrace();
@@ -110,7 +178,7 @@ public class ComplaintController {
     }
 
     // Get Complaints
-    @CrossOrigin(origins = {"http://172.30.14.116:8100","file://"})
+    @CrossOrigin(origins = {"http://192.168.1.6:8100","file://"})
     @GetMapping("/complaints/{user_id}")
     public List<Complaint> getComplaintById(@PathVariable(value = "user_id") Long user_id) {
         System.out.println("------------DISPLAYING COMPLAINT-------------");
