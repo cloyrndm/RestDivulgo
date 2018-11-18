@@ -45,7 +45,7 @@ public class ComplaintController {
     TfidfRepository tfidfRepository;
 
     //Save the uploaded file to this folder
-
+//hello
 //    private static String UPLOADED_FOLDER = "C://School//Divulgo_Uploads//";
     private static String UPLOADED_FOLDER="C://Users//Cloie Andrea//IdeaProjects//GovtDivulgo//src//main//resources//static//images//divulgomobuploads//";
     public static byte[] readFileToByteArray(File file) throws IOException {
