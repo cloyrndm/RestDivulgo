@@ -1,5 +1,4 @@
 package com.example.demo.Repository;
-
 import com.example.demo.Entity.Tfidf;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -18,8 +17,14 @@ public interface TfidfRepository extends JpaRepository<Tfidf,Long> {
 //    public List<Tfidf> findArt();
 //    public interface UserRepository  extends JpaRepository<User, Integer> {
 //        User findByUsernameAndPassword(String username,String password);
-    public List<Tfidf> findAll();
-    public Tfidf findByNgramId(int id);
-    public Tfidf findByFreqId(int id);
-    public Tfidf findByTfidfId(int id);
+    List<Tfidf> findAll();
+    Tfidf findByNgramId(int id);
+    Tfidf findByFreqId(int id);
+    Tfidf findByTfidfId(int id);
+    Tfidf findByWord(String word);
+    Tfidf findByAgency(String a);
+    Tfidf findByWordAndAgency(String w, String a);
+    Tfidf findByFreqIdAndNgramId(int id1, int id2);
+    Tfidf findByNgramIdAndAgency(int id, String a);
+    Tfidf findByFreqIdAndWord(int id, String a);
 }

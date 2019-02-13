@@ -16,9 +16,61 @@ public class Tfidf {
     private Integer tfidfId;
     private String agency;
     private Integer ngramId;
-    private String word;
     private Double tfidfVal;
     private Integer freqId;
+    private Double tfVal;
+    private Double idfVal;
+    private Integer artId;
+    private Integer stat;
+    private String word;
+//    private Integer artId;
+
+
+    //addd
+
+
+    public String getWord() {
+        return word;
+    }
+
+    public void setWord(String word) {
+        this.word = word;
+    }
+
+    public Integer getStat() {
+        return stat;
+    }
+
+    public void setStat(Integer stat) {
+        this.stat = stat;
+    }
+
+    public Double getTfVal() {
+        return tfVal;
+    }
+
+    public void setTfVal(Double tfVal) {
+        this.tfVal = tfVal;
+    }
+
+    public Double getIdfVal() {
+        return idfVal;
+    }
+
+    public void setIdfVal(Double idfVal) {
+        this.idfVal = idfVal;
+    }
+
+
+
+    public Integer getArtId() {
+        return artId;
+    }
+
+    public void setArtId(Integer artId) {
+        this.artId = artId;
+    }
+
 
     public Integer getFreqId() {
         return freqId;
@@ -50,14 +102,6 @@ public class Tfidf {
 
     public void setTfidfId(Integer tfidfId) {
         this.tfidfId = tfidfId;
-    }
-
-    public String getWord() {
-        return word;
-    }
-
-    public void setWord(String word) {
-        this.word = word;
     }
 
     public Double getTfidfVal() {

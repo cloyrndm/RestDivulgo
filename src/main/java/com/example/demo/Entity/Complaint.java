@@ -33,10 +33,20 @@ public class Complaint implements Serializable {
 
     private Double user_long;
 
+    private String address;
+
     private String agency;
 
 //    private String user_location;
 
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
     public String getAgency() {
         return agency;

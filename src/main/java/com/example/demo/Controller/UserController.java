@@ -30,7 +30,7 @@ public class UserController {
     // Create a new User
     // @CrossOrigin(origins = {"http://172.17.1.237","file://"})
     //testing purposes only
-    @CrossOrigin(origins = {"http://192.168.1.6:8100","file://"})
+    @CrossOrigin(origins = {"http://192.168.1.2:8100","file://"})
     @PostMapping("/users")
     public User createUser(@RequestBody @Valid User user) {
         System.out.println("---------------REGISTERING USER--------------");
@@ -44,7 +44,7 @@ public class UserController {
 
 //    @CrossOrigin(origins = {"http://172.17.1.237","file://"})
     //testing purposes only
-    @CrossOrigin(origins = {"http://192.168.1.6:8100","file://"})
+    @CrossOrigin(origins = {"http://192.168.1.2:8100","file://"})
     @RequestMapping("/login")
     public User login(@RequestBody @Valid User user){
         System.out.println("----------------LOGGING IN-------------------");
@@ -58,7 +58,7 @@ public class UserController {
         return user;
     }
 
-        @CrossOrigin(origins = {"http://192.168.1.6:8100","file://"})
+        @CrossOrigin(origins = {"http://192.168.1.2:8100","file://"})
         @RequestMapping("/findEmail")
         public User getUserById(@PathVariable @RequestBody @Valid User user) {
             user = userRepository.findUserByEmail(user.getEmail());
@@ -92,9 +92,7 @@ public class UserController {
 //    public User login(@Valid @RequestBody User user){
 //        System.out.println("I GOT IN THE LOGIN");
 //
-//    }
-
-    // Get a Single User
+//    }// Get a Single User
 //    @GetMapping("/users/{id}")
 //    public User getUserById(@PathVariable(value = "id") Long userId) {
 //        return userRepository.findById(userId)

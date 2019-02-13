@@ -117,6 +117,19 @@
 		</dependency>
 
 
+		<!--&lt;!&ndash; https://mvnrepository.com/artifact/com.afrigis.services/reversegeocode &ndash;&gt;-->
+		<!--<dependency>-->
+			<!--<groupId>com.afrigis.services</groupId>-->
+			<!--<artifactId>reversegeocode</artifactId>-->
+			<!--<version>3.0.2</version>-->
+		<!--</dependency>-->
+
+		<!-- https://mvnrepository.com/artifact/me.atlis/nominatim-api -->
+		<!--<dependency>-->
+			<!--<groupId>me.atlis</groupId>-->
+			<!--<artifactId>nominatim-api</artifactId>-->
+			<!--<version>1.0.0</version>-->
+		<!--</dependency>-->
 
 
 
