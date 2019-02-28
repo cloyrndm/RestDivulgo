@@ -31,7 +31,6 @@ import java.util.regex.Pattern;
 @RestController
 @CrossOrigin(maxAge = 3600)
 @RequestMapping("/apithree")
-//@ResponseBody
 public class ComplaintController {
 
     @Autowired
@@ -55,7 +54,7 @@ public class ComplaintController {
         return null;
     }
 
-    @CrossOrigin(origins = {"http://192.168.1.2:8100","file://"})
+//    @CrossOrigin(origins = {"http://172.30.6.196:8100","file://"})
     @PostMapping(value="/upload") // //new annotation since 4.3
     public String singleFileUpload(@RequestParam(name="ionicfile") MultipartFile file,
                                    @RequestParam(name="user_id") Long user_id,
@@ -63,9 +62,11 @@ public class ComplaintController {
                                    @RequestParam(name="lat") Double lat,
                                    @RequestParam(name="long") Double lng,
                                    @RequestParam(name="address") String address,
+                                   @RequestParam(name="stat") String stat,
                                    Complaint complaint,
                                    RedirectAttributes redirectAttributes) throws IOException {
-
+//        String address = "USJR, Basak Campus";
+        System.out.println(stat);
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         SimpleDateFormat formatter2 = new SimpleDateFormat("HH:mm:ss");
         Date date = new Date();
@@ -73,6 +74,11 @@ public class ComplaintController {
         String time = formatter2.format(date);
 
         System.out.println("-----------------FILE UPLOAD-----------------");
+
+        if(stat.equals("true")){
+            complaint.setAnon("anon");
+            System.out.println("Complaint Id:"+null);
+        }
         complaint.setUserId(user_id);
         complaint.setDate(dateee);
         complaint.setTime(time);
@@ -236,7 +242,7 @@ public class ComplaintController {
     }
 
     // Get Complaints
-    @CrossOrigin(origins = {"http://192.168.1.2:8100","file://"})
+    @CrossOrigin(origins = {"http://172.30.6.196:8100","file://"})
     @GetMapping("/complaints/{user_id}")
     public List<Complaint> getComplaintById(@PathVariable(value = "user_id") Long user_id) {
         System.out.println("------------DISPLAYING COMPLAINT-------------");
@@ -246,7 +252,7 @@ public class ComplaintController {
     }
 
     // Get Complaints
-    @CrossOrigin(origins = {"http://192.168.1.2:8100","file://"})
+    @CrossOrigin(origins = {"http://172.30.6.196:8100","file://"})
     @GetMapping("/replies/{user_id}")
     public List<Complaintr> getReplies(@PathVariable(value = "user_id") Long user_id) {
         System.out.println("------------DISPLAYING REPLIES-------------");
@@ -269,6 +275,9 @@ public class ComplaintController {
         for (Map.Entry<String, Double> entry : values.entrySet())
             if(entry.getValue()==maxval)
                 max.put(entry.getKey(),entry.getValue());
+            else if(maxval == 0.0){
+                max.put("UNCLASSIFIED",0.0);
+            }
         return max;
     }
 

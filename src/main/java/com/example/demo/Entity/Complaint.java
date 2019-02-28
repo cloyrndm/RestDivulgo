@@ -37,7 +37,17 @@ public class Complaint implements Serializable {
 
     private String agency;
 
-//    private String user_location;
+    private String anon;
+
+    public String getAnon() {
+        return anon;
+    }
+
+    public void setAnon(String anon) {
+        this.anon = anon;
+    }
+
+    //    private String user_location;
 
 
     public String getAddress() {
